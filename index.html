@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>兩家挪威之旅</title>
+    <!-- 載入 Tailwind CSS CDN，用於快速美化頁面 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自訂 CSS 樣式 */
+        body {
+            font-family: 'Inter', sans-serif; /* 使用 Inter 字體 */
+            background-color: #fefafa; /* 淺粉色背景，更柔和 */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* 將內容頂部對齊 */
+            min-height: 100vh; /* 確保至少佔滿整個視窗高度 */
+            padding-bottom: 4rem; /* 底部填充 */
+        }
+        .container {
+            max-width: 900px; /* 容器最大寬度 */
+            width: 100%; /* 確保容器響應式 */
+            background: #ffffff; /* 白色背景 */
+            border-radius: 1rem; /* 圓角邊框 */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* 柔和的陰影 */
+            margin-top: 2rem; /* 頂部邊距 */
+            overflow: hidden; /* 防止內容溢出圓角 */
+        }
+
+        /* 頂部標題區樣式 - 改為淺柔和紅色背景並調整間距 */
+        .header-section {
+            background-color: #f2dede; /* 淺柔和玫瑰色 */
+            padding: 1.5rem 1.5rem; /* 減少上下內邊距，使其更緊湊 */
+            text-align: center;
+            color: #884a4a; /* 深玫瑰色文字 */
+            border-bottom-left-radius: 1rem; /* 底部圓角 */
+            border-bottom-right-radius: 1rem;
+            margin-bottom: 1.5rem; /* 減少與時間軸內容的間距 */
+        }
+        .company-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem; /* 減少與大標題的間距 */
+            letter-spacing: 0.05em;
+        }
+        .history-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem; /* 減少與副標題的間距 */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05); /* 輕微文字陰影 */
+        }
+        .subtitle {
+            font-size: 1.125rem;
+            color: #b37e7e; /* 較淺的玫瑰色，與背景搭配 */
+            margin-bottom: 0; /* 確保沒有額外底部間距 */
+        }
+
+        /* 時間軸主容器 */
+        .timeline {
+            position: relative;
+            padding: 0 1rem; /* 左右內邊距 */
+        }
+
+        /* 時間軸中心線 */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%; /* 位於中心 */
+            width: 4px; /* 線的寬度 */
+            background-color: #e8c4c4; /* 柔和的淺玫瑰色線條 */
+            border-radius: 2px;
+            transform: translateX(-50%); /* 精確居中 */
+        }
+
+        /* 時間軸項目 */
+        .timeline-item {
+            display: flex;
+            justify-content: space-between; /* 內容與點之間分開 */
+            align-items: center; /* 垂直居中對齊 */
+            margin-bottom: 4rem; /* 項目間距 */
+            position: relative;
+            min-height: 150px; /* 確保足夠的高度 */
+        }
+
+        /* 內容卡片容器 - 左側或右側 */
+        .timeline-content-side {
+            width: calc(50% - 45px); /* 寬度為一半減去中心區域 */
+            position: relative;
+        }
+
+        /* 內容卡片 */
+        .timeline-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07); /* 柔和的陰影 */
+            border: 1px solid #e5e7eb; /* 輕微邊框 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timeline-card p {
+            font-weight: 600;
+            color: #884a4a; /* 深玫瑰色文字 */
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        /* 按鈕顏色改為柔和紅色 */
+        .timeline-card a {
+            background-color: #d08c8c; /* 柔和的中等紅色按鈕背景 */
+            color: #ffffff; /* 白色文字 */
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        .timeline-card a:hover {
+            background-color: #bb7a7a; /* 懸停時變更深 */
+        }
+
+        /* 時間軸圓點與連接線的容器 */
+        .timeline-center {
+            width: 90px; /* 中心區域寬度 */
+            flex-shrink: 0; /* 不縮小 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* 時間軸圓點 - 統一為柔和中等紅色 */
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e09f9f; /* 柔和的中等紅色 */
+            border: 4px solid #ffffff; /* 白色邊框 */
+            box-shadow: 0 0 0 2px #e8c4c4; /* 外層淺玫瑰色陰影 */
+            z-index: 2; /* 確保在線上方 */
+        }
+
+        /* 連接線 (從圓點到卡片/日期) */
+        .timeline-center::before,
+        .timeline-center::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 2px; /* 線條厚度 */
+            background-color: #e8c4c4; /* 淺玫瑰色連接線 */
+            z-index: 1; /* 在圓點下方 */
+        }
+
+        /* 左側內容的連接線 */
+        .timeline-item:nth-child(odd) .timeline-center::before {
+            left: 0;
+            width: calc(50% - 12px); /* 從圓點到左邊緣的距離 */
+        }
+        /* 右側內容的連接線 */
+        .timeline-item:nth-child(even) .timeline-center::after {
+            right: 0;
+            width: calc(50% - 12px); /* 從圓點到右邊緣的距離 */
+        }
+        
+        /* 日期顯示樣式 */
+        .timeline-date-text {
+            font-weight: 700;
+            color: #b37e7e; /* 日期文字顏色 (柔和的玫瑰色) */
+            font-size: 1.125rem;
+            padding: 1.5rem; /* 確保與卡片有相同垂直對齊空間 */
+        }
+
+        /* 奇數項目：卡片在左，日期在右 */
+        .timeline-item:nth-child(odd) .timeline-content-side:first-child { /* This is the card side */
+            margin-right: auto;
+            text-align: right;
+        }
+        .timeline-item:nth-child(odd) .timeline-content-side:last-child { /* This is the date side */
+            margin-left: auto;
+            text-align: left;
+        }
+        .timeline-item:nth-child(odd) .timeline-card {
+            align-items: flex-end; /* 按鈕右對齊 */
+        }
+
+        /* 偶數項目：日期在左，卡片在右 */
+        .timeline-item:nth-child(even) .timeline-content-side:first-child { /* This is the date side */
+            margin-right: auto;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) .timeline-content-side:last-child { /* This is the card side */
+            margin-left: auto;
+            text-align: left;
+        }
+        .timeline-item:nth-child(even) .timeline-card {
+            align-items: flex-start; /* 按鈕左對齊 */
+        }
+
+        /* 響應式設計：小螢幕調整 */
+        @media (max-width: 768px) {
+            .header-section {
+                padding: 1.2rem 0.8rem; /* 手機上也使用較小的內邊距 */
+                margin-bottom: 1rem; /* 手機上更小的底部間距 */
+            }
+            .history-title {
+                font-size: 1.8rem; /* 手機上字體縮小 */
+                margin-bottom: 0.2rem; /* 手機上更小的間距 */
+            }
+            .subtitle {
+                font-size: 0.9rem; /* 手機上字體縮小 */
+                display: block; /* Ensure subtitle is visible on mobile if needed */
+            }
+            .company-name {
+                 font-size: 0.9rem; /* 手機上字體縮小 */
+                 margin-bottom: 0.1rem;
+            }
+
+            .timeline::before {
+                left: 50%; /* 線條保持居中 */
+                transform: translateX(-50%);
+            }
+            .timeline-item {
+                flex-direction: row; /* 保持左右排列 */
+                align-items: center; /* 垂直居中對齊 */
+                margin-bottom: 3rem; /* 間距縮小 */
+                padding-left: 0; /* 移除為線和圓點留出的空間 */
+            }
+            /* 調整左右內容側的寬度，確保在手機上也能並排顯示 */
+            .timeline-content-side {
+                width: calc(50% - 30px); /* 調整寬度，給中心區域留出更多空間 */
+                /* 保持桌面版的 margin-right/left auto，讓其自動對齊 */
+            }
+
+            .timeline-card {
+                padding: 1rem; /* 縮小卡片內邊距 */
+            }
+            .timeline-card p {
+                font-size: 0.9rem; /* 縮小卡片文字大小 */
+                margin-bottom: 0.8rem;
+            }
+            .timeline-card a {
+                padding: 0.5rem 1rem; /* 縮小按鈕內邊距 */
+                font-size: 0.9rem; /* 縮小按鈕文字大小 */
+            }
+
+            .timeline-date-text {
+                font-size: 1rem; /* 縮小日期文字大小 */
+                padding: 1rem; /* 確保與卡片有相同垂直對齊空間 */
+            }
+            
+            /* 時間軸圓點與連接線的容器 */
+            .timeline-center {
+                width: 60px; /* 縮小中心區域寬度 */
+                justify-content: center; /* 圓點保持居中 */
+                position: relative; /* 確保它仍在流中 */
+                margin: 0; /* 移除額外邊距 */
+            }
+            .timeline-dot {
+                margin-left: 0; /* 移除調整 */
+                width: 20px; /* 縮小圓點大小 */
+                height: 20px;
+                border: 3px solid #ffffff; /* 縮小邊框 */
+                box-shadow: 0 0 0 1px #e8c4c4; /* 縮小陰影 */
+            }
+            /* 連接線 (從圓點到卡片/日期) - 在手機上也顯示 */
+            .timeline-center::before,
+            .timeline-center::after {
+                display: block; /* 重新顯示連接線 */
+                height: 2px; /* 線條厚度 */
+                background-color: #e8c4c4; /* 淺玫瑰色連接線 */
+            }
+            .timeline-item:nth-child(odd) .timeline-center::before {
+                width: calc(50% - 10px); /* 調整連接線長度 */
+            }
+            .timeline-item:nth-child(even) .timeline-center::after {
+                width: calc(50% - 10px); /* 調整連接線長度 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1 class="history-title">兩家挪威之旅</h1>
+            <p class="subtitle">Ray Sunnie Paige Stacy Evan Sidney in Norway</p>
+        </div>
+
+        <div class="timeline">
+            <!-- 奧斯陸行程 - 日期在左，卡片在右 -->
+            <div class="timeline-item">
+                <div class="timeline-content-side">
+                    <h3 class="timeline-date-text">7月17日-7月22日</h3>
+                </div>
+                <div class="timeline-center">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-content-side">
+                    <div class="timeline-card">
+                        <p>奧斯陸</p>
+                        <a href="http://ckd38.github.io/Oslo/" target="_blank">點擊查看</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 挪威縮影行程 - 卡片在左，日期在右 -->
+            <div class="timeline-item">
+                <div class="timeline-content-side">
+                    <div class="timeline-card">
+                        <p>挪威縮影</p>
+                        <a href="http://ckd38.github.io/SFinaNutshell/" target="_blank">點擊查看</a>
+                    </div>
+                </div>
+                <div class="timeline-center">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-content-side">
+                    <h3 class="timeline-date-text">7月22日-7月23日</h3>
+                </div>
+            </div>
+
+            <!-- 卑爾根行程 - 日期在左，卡片在右 -->
+            <div class="timeline-item">
+                <div class="timeline-content-side">
+                    <h3 class="timeline-date-text">7月23日-7月25日</h3>
+                </div>
+                <div class="timeline-center">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-content-side">
+                    <div class="timeline-card">
+                        <p>卑爾根</p>
+                        <a href="http://ckd38.github.io/Bergen/" target="_blank">點擊查看</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
