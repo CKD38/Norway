@@ -172,6 +172,7 @@
             color: #b37e7e; /* 日期文字顏色 (柔和的玫瑰色) */
             font-size: 1.125rem;
             padding: 1.5rem; /* 確保與卡片有相同垂直對齊空間 */
+            white-space: nowrap; /* 不換行 */
         }
 
         /* 奇數項目：卡片在左，日期在右 */
@@ -236,20 +237,22 @@
             }
 
             .timeline-card {
-                padding: 1rem; /* 縮小卡片內邊距 */
+                padding: 0.8rem; /* 進一步縮小卡片內邊距 */
             }
             .timeline-card p {
-                font-size: 0.9rem; /* 縮小卡片文字大小 */
-                margin-bottom: 0.8rem;
+                font-size: 0.8rem; /* 進一步縮小卡片文字大小 */
+                margin-bottom: 0.6rem;
             }
             .timeline-card a {
-                padding: 0.5rem 1rem; /* 縮小按鈕內邊距 */
-                font-size: 0.9rem; /* 縮小按鈕文字大小 */
+                padding: 0.4rem 0.8rem; /* 進一步縮小按鈕內邊距 */
+                font-size: 0.8rem; /* 進一步縮小按鈕文字大小 */
             }
 
             .timeline-date-text {
-                font-size: 1rem; /* 縮小日期文字大小 */
-                padding: 1rem; /* 確保與卡片有相同垂直對齊空間 */
+                font-size: 0.9rem; /* 進一步縮小日期文字大小 */
+                padding: 0.8rem; /* 確保與卡片有相同垂直對齊空間 */
+                text-align: center; /* 日期文字居中 */
+                white-space: nowrap; /* 確保日期不換行 */
             }
             
             /* 時間軸圓點與連接線的容器 */
@@ -278,6 +281,20 @@
             }
             .timeline-item:nth-child(even) .timeline-center::after {
                 width: calc(50% - 10px); /* 調整連接線長度 */
+            }
+
+            /* 確保內容在手機上更靠近中央時間軸 */
+            .timeline-item:nth-child(odd) .timeline-content-side:first-child {
+                text-align: right; /* 左側卡片內容靠右 */
+            }
+            .timeline-item:nth-child(odd) .timeline-card {
+                align-items: flex-end; /* 左側卡片按鈕靠右 */
+            }
+            .timeline-item:nth-child(even) .timeline-content-side:first-child {
+                text-align: left; /* 右側日期內容靠左 */
+            }
+            .timeline-item:nth-child(even) .timeline-card {
+                align-items: flex-start; /* 右側卡片按鈕靠左 */
             }
         }
     </style>
